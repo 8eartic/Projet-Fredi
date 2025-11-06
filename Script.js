@@ -20,3 +20,4 @@ document.getElementById('contact-form').addEventListener('submit', e => {
     document.getElementById('contact-msg').style.display = 'block';
     e.target.reset();
 });
+
