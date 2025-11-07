@@ -1,0 +1,11 @@
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL,
+    prenom VARCHAR(100) NOT NULL,
+    adresse VARCHAR(255) NOT NULL,
+    tel_portable VARCHAR(20),
+    tel_fixe VARCHAR(20),
+    email VARCHAR(150) UNIQUE NOT NULL,
+    mdp VARCHAR(255) NOT NULL,
+    date_inscription TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
