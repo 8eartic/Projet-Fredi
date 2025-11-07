@@ -1,89 +1,108 @@
 <!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Association Sportive — Inscription / Connexion</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Association Sportive — Inscription / Connexion</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="card" role="main" aria-labelledby="title">
-        <div class="hero">
-            <div class="brand">
-                <div class="logo">AS</div>
-                <div>
-                    <h2 id="title" style="margin:0">Association Sportive</h2>
-                    <div style="font-size:13px;opacity:.95">Bienvenue — Rejoignez-nous !</div>
-                </div>
-            </div>
-            <h1>Sport, esprit d'équipe et convivialité</h1>
-            <p>Inscrivez-vous pour participer aux événements, gérer votre profil et suivre les activités du club.</p>
+  <div class="card" role="main" aria-labelledby="title">
+    <div class="hero">
+      <div class="brand">
+        <div class="logo">AS</div>
+        <div>
+          <h2 id="title" style="margin:0">Association Sportive</h2>
+          <div style="font-size:13px;opacity:.95">Bienvenue — Rejoignez-nous !</div>
         </div>
-
-        <div class="panel">
-            <div id="forms">
-                <div class="switch">
-                    <div style="display:flex;gap:8px">
-                        <button id="btn-login" class="alt">Connexion</button>
-                        <button id="btn-register">Inscription</button>
-                    </div>
-                    <div class="small">Couleurs: rouge & blanc</div>
-                </div>
-
-                <div id="login-form" style="display:none">
-                    <form onsubmit="return authSignIn(event)">
-                        <div class="field">
-                            <label for="login-email">Email</label>
-                            <input id="login-email" type="email" required />
-                        </div>
-                        <div class="field">
-                            <label for="login-password">Mot de passe</label>
-                            <input id="login-password" type="password" required minlength="6" />
-                        </div>
-                        <div>
-                            <button type="submit">Se connecter</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div id="register-form">
-                    <form onsubmit="return authSignUp(event)">
-                        <div class="field">
-                            <label for="reg-name">Nom complet</label>
-                            <input id="reg-name" type="text" required />
-                        </div>
-                        <div class="field">
-                            <label for="reg-email">Email</label>
-                            <input id="reg-email" type="email" required />
-                        </div>
-                        <div class="field">
-                            <label for="reg-password">Mot de passe (min 6)</label>
-                            <input id="reg-password" type="password" required minlength="6" />
-                        </div>
-                        <div>
-                            <button type="submit">S'inscrire</button>
-                        </div>
-                    </form>
-                </div>
-
-                <div id="message" style="margin-top:12px"></div>
-            </div>
-
-            <div id="dashboard" style="display:none">
-                <div class="dashboard">
-                    <div class="usercard">
-                        <strong id="user-name"></strong>
-                        <div id="user-email" class="small"></div>
-                    </div>
-                    <div>
-                        <button id="btn-logout" class="alt">Se déconnecter</button>
-                    </div>
-                    <footer>Vous êtes connecté. Gérez vos inscriptions aux événements depuis votre compte.</footer>
-                </div>
-            </div>
-        </div>
+      </div>
+      <h1>Sport, esprit d'équipe et convivialité</h1>
+      <p>Inscrivez-vous pour participer aux événements, gérer votre profil et suivre les activités du club.</p>
     </div>
 
-    <script src="script.js"></script>
+    <div class="panel">
+      <div id="forms">
+        <div class="switch">
+          <div style="display:flex;gap:8px">
+            <button id="btn-login" class="alt">Connexion</button>
+            <button id="btn-register">Inscription</button>
+          </div>
+          <div class="small">Couleurs : rouge & blanc</div>
+        </div>
+
+        <!-- === FORMULAIRE CONNEXION === -->
+        <div id="login-form" style="display:none">
+          <form onsubmit="return authSignIn(event)">
+            <div class="field">
+              <label for="login-email">Email</label>
+              <input id="login-email" type="email" required />
+            </div>
+            <div class="field">
+              <label for="login-password">Mot de passe</label>
+              <input id="login-password" type="password" required minlength="6" />
+            </div>
+            <div>
+              <button type="submit">Se connecter</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- === FORMULAIRE INSCRIPTION (COMPLET) === -->
+        <div id="register-form">
+          <form onsubmit="return authSignUp(event)">
+            <div class="field">
+              <label for="reg-nom">Nom</label>
+              <input id="reg-nom" type="text" required>
+            </div>
+            <div class="field">
+              <label for="reg-prenom">Prénom</label>
+              <input id="reg-prenom" type="text" required>
+            </div>
+            <div class="field">
+              <label for="reg-adresse">Adresse</label>
+              <input id="reg-adresse" type="text" required>
+            </div>
+            <div class="field">
+              <label for="reg-tel">Téléphone</label>
+              <input id="reg-tel" type="text">
+            </div>
+            <div class="field">
+              <label for="reg-mobile">Mobile</label>
+              <input id="reg-mobile" type="text">
+            </div>
+            <div class="field">
+              <label for="reg-email">Email</label>
+              <input id="reg-email" type="email" required>
+            </div>
+            <div class="field">
+              <label for="reg-password">Mot de passe</label>
+              <input id="reg-password" type="password" required minlength="6">
+            </div>
+            <div>
+              <button type="submit">S'inscrire</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="message" style="margin-top:12px"></div>
+      </div>
+
+      <!-- === TABLEAU DE BORD (APRÈS CONNEXION) === -->
+      <div id="dashboard" style="display:none">
+        <div class="dashboard">
+          <div class="usercard">
+            <strong id="user-name"></strong>
+            <div id="user-email" class="small"></div>
+          </div>
+          <div>
+            <button id="btn-logout" class="alt">Se déconnecter</button>
+          </div>
+          <footer>Vous êtes connecté. Gérez vos inscriptions aux événements depuis votre compte.</footer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

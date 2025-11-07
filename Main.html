@@ -1,210 +1,211 @@
 <!doctype html>
 <html lang="fr">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Association Sportive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Association Sportive</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <div class="container nav">
-            <a class="brand" href="#">
-                <div class="logo">AS</div>
-                <div>
-                    <strong>Association Sportive de la Ville</strong>
-                    <div style="font-size:0.85rem;color:#555">Communauté • Équipes • Événements</div>
-                </div>
-            </a>
-
-            <nav>
-                <button class="menu-toggle" aria-expanded="false" aria-label="Basculer le menu">☰</button>
-                <ul id="main-nav">
-                    <li><a href="#about">À propos</a></li>
-                    <li><a href="#teams">Équipes</a></li>
-                    <li><a href="#events">Événements</a></li>
-                    <li><a href="#join">Adhésion</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                    <li><button id="auth-btn" class="btn-login">Connexion / Inscription</button></li>
-                </ul>
-            </nav>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#">
+        <div class="logo">AS</div>
+        <div>
+          <strong>Association Sportive de la Ville</strong>
+          <div class="subtext">Communauté • Équipes • Événements</div>
         </div>
-    </header>
+      </a>
 
-    <main>
-        <!-- === HERO === -->
-        <section class="hero">
-            <div class="container hero-inner">
-                <div>
-                    <h1>Rejoignez l’Association Sportive de la Ville</h1>
-                    <p>Nous rassemblons joueurs, entraîneurs et supporters. Programmes pour les jeunes, équipes compétitives et événements communautaires — dans une ambiance conviviale.</p>
-                    <a class="cta" href="#join">Devenir membre</a>
-                </div>
-                <div class="hero-card">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem">
-                        <div>
-                            <div class="team-badge">Inscriptions ouvertes</div>
-                            <div style="font-weight:700;margin-top:.5rem">Saison de printemps 2026</div>
-                        </div>
-                        <div style="text-align:right">
-                            <div style="font-size:1.6rem;font-weight:700">12</div>
-                            <div style="font-size:.85rem;color:rgba(255,255,255,.9)">Matchs à venir</div>
-                        </div>
-                    </div>
-                    <div style="font-size:.95rem;color:rgba(255,255,255,.95)">Prochain match : City Hawks vs Riverside FC — Samedi 10h00</div>
-                </div>
-            </div>
-        </section>
+      <nav>
+        <button class="menu-toggle" aria-expanded="false" aria-label="Basculer le menu">☰</button>
+        <ul id="main-nav">
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#teams">Équipes</a></li>
+          <li><a href="#events">Événements</a></li>
+          <li><a href="#join">Adhésion</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><button id="auth-btn" class="btn-login">Connexion / Inscription</button></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
 
-        <!-- === ABOUT === -->
-        <section id="about">
-            <div class="container">
-                <div class="section-title"><h2>À propos de nous</h2></div>
-                <div style="display:grid;grid-template-columns:2fr 1fr;gap:1rem">
-                    <p class="card">
-                        L’Association Sportive de la Ville est une organisation à but non lucratif dirigée par des bénévoles, dédiée à la promotion du sport et d’un mode de vie sain pour tous les âges.
-                        Nous gérons des programmes de développement pour les jeunes, des ligues adultes et des activités communautaires. Notre mission : inclusion, fair-play et esprit sportif local.
-                    </p>
-                    <div class="card">
-                        <div><strong>Fondée</strong> en 1998</div>
-                        <div><strong>Membres</strong> 1 200+</div>
-                        <div><strong>Installations</strong> 4 terrains, 2 gymnases</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- === TEAMS === -->
-        <section id="teams">
-            <div class="container">
-                <div class="section-title"><h2>Nos Équipes</h2></div>
-                <div class="grid">
-                    <div class="card">
-                        <h3>City Hawks</h3>
-                        <p>Équipe de football adulte compétitive. Entraînements : mardi et jeudi.</p>
-                        <div class="badges">
-                            <span class="team-badge">Seniors</span>
-                            <span class="team-badge coach">Entraîneur : M. Lopez</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3>Riverside Runners</h3>
-                        <p>Programme d’athlétisme pour les jeunes de 8 à 16 ans.</p>
-                        <div class="badges">
-                            <span class="team-badge">Jeunes</span>
-                            <span class="team-badge coach">Entraîneur : A. Kim</span>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <h3>Community FC</h3>
-                        <p>Ligue mixte récréative ouverte à tous les niveaux.</p>
-                        <div class="badges">
-                            <span class="team-badge">Récréatif</span>
-                            <span class="team-badge coach">Ouvert</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- === EVENTS === -->
-        <section id="events">
-            <div class="container">
-                <div class="section-title"><h2>Événements à venir</h2></div>
-                <div class="grid events">
-                    <div class="card">
-                        <strong>Tournoi de printemps</strong>
-                        <div class="muted">21–23 mai • Stade principal</div>
-                        <p>Tournoi de trois jours avec divisions jeunes et adultes. Bénévoles et arbitres recherchés.</p>
-                    </div>
-                    <div class="card">
-                        <strong>Festival communautaire</strong>
-                        <div class="muted">12 juin • Parc municipal</div>
-                        <p>Journée familiale avec mini-jeux, ateliers, food trucks et stands de sponsors.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- === JOIN === -->
-        <section id="join">
-            <div class="container">
-                <div class="section-title"><h2>Devenir membre</h2></div>
-                <div class="join-grid">
-                    <form id="join-form" class="card">
-                        <label>Nom complet
-                            <input type="text" name="name" required placeholder="Jean Dupont">
-                        </label>
-                        <label>Email
-                            <input type="email" name="email" required placeholder="vous@example.com">
-                        </label>
-                        <label>Centres d’intérêt
-                            <input type="text" name="interests" placeholder="Coaching, bénévolat, jeu">
-                        </label>
-                        <button type="submit">S’inscrire / Adhérer</button>
-                        <div id="join-msg" class="form-msg">Merci ! Nous vous contacterons bientôt.</div>
-                    </form>
-
-                    <div class="card">
-                        <strong>Avantages de l’adhésion</strong>
-                        <ul>
-                            <li>Priorité d’inscription</li>
-                            <li>Réductions sur les stages</li>
-                            <li>Accès aux événements réservés aux membres</li>
-                        </ul>
-                        <div class="fees">
-                            <strong>Frais</strong>
-                            <div>Jeunes : 30 $/saison • Adultes : 50 $/saison • Bénévoles : gratuit</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- === CONTACT === -->
-        <section id="contact">
-            <div class="container">
-                <div class="section-title"><h2>Contact</h2></div>
-                <div class="contact-grid">
-                    <div class="card">
-                        <p class="muted">Pour toute question concernant l’inscription, le bénévolat ou les installations, envoyez-nous un message.</p>
-                        <form id="contact-form">
-                            <label>Nom
-                                <input type="text" name="name" required>
-                            </label>
-                            <label>Email
-                                <input type="email" name="email" required>
-                            </label>
-                            <label>Message
-                                <textarea name="message" rows="4" required></textarea>
-                            </label>
-                            <button type="submit">Envoyer le message</button>
-                            <div id="contact-msg" class="form-msg">Message envoyé.</div>
-                        </form>
-                    </div>
-
-                    <div class="card">
-                        <strong>Adresse</strong>
-                        <div class="muted">123 avenue du Sport, Ville</div>
-                        <div><strong>Téléphone</strong><div class="muted">+1 (555) 123-4567</div></div>
-                        <div><strong>Heures d’ouverture</strong><div class="muted">Lun–Ven 9 h 00–17 h 00</div></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container footer-grid">
-            <div class="muted">© Association Sportive de la Ville • Tous droits réservés</div>
-            <div class="footer-links">
-                <a href="#">Confidentialité</a>
-                <a href="#">Conditions</a>
-            </div>
+  <main>
+    <!-- === HERO === -->
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <h1>Rejoignez l’Association Sportive de la Ville</h1>
+          <p>Nous rassemblons joueurs, entraîneurs et supporters. Programmes pour les jeunes, équipes compétitives et événements communautaires — dans une ambiance conviviale.</p>
+          <a class="cta" href="#join">Devenir membre</a>
         </div>
-    </footer>
 
-    <script src="script.js"></script>
+        <div class="hero-card">
+          <div class="hero-card-header">
+            <div>
+              <div class="team-badge">Inscriptions ouvertes</div>
+              <div class="season-title">Saison de printemps 2026</div>
+            </div>
+            <div class="match-info">
+              <div class="match-count">12</div>
+              <div class="match-label">Matchs à venir</div>
+            </div>
+          </div>
+          <div class="next-match">Prochain match : City Hawks vs Riverside FC — Samedi 10h00</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- === ABOUT === -->
+    <section id="about">
+      <div class="container">
+        <h2 class="section-title">À propos de nous</h2>
+        <div class="grid-about">
+          <p class="card">
+            L’Association Sportive de la Ville est une organisation à but non lucratif dirigée par des bénévoles, dédiée à la promotion du sport et d’un mode de vie sain pour tous les âges.
+            Nous gérons des programmes de développement pour les jeunes, des ligues adultes et des activités communautaires. Notre mission : inclusion, fair-play et esprit sportif local.
+          </p>
+          <div class="card">
+            <div><strong>Fondée</strong> en 1998</div>
+            <div><strong>Membres</strong> 1 200+</div>
+            <div><strong>Installations</strong> 4 terrains, 2 gymnases</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- === TEAMS === -->
+    <section id="teams">
+      <div class="container">
+        <h2 class="section-title">Nos Équipes</h2>
+        <div class="grid">
+          <div class="card">
+            <h3>City Hawks</h3>
+            <p>Équipe de football adulte compétitive. Entraînements : mardi et jeudi.</p>
+            <div class="badges">
+              <span class="team-badge">Seniors</span>
+              <span class="team-badge coach">Entraîneur : M. Lopez</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Riverside Runners</h3>
+            <p>Programme d’athlétisme pour les jeunes de 8 à 16 ans.</p>
+            <div class="badges">
+              <span class="team-badge">Jeunes</span>
+              <span class="team-badge coach">Entraîneur : A. Kim</span>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Community FC</h3>
+            <p>Ligue mixte récréative ouverte à tous les niveaux.</p>
+            <div class="badges">
+              <span class="team-badge">Récréatif</span>
+              <span class="team-badge coach">Ouvert</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- === EVENTS === -->
+    <section id="events">
+      <div class="container">
+        <h2 class="section-title">Événements à venir</h2>
+        <div class="grid events">
+          <div class="card">
+            <strong>Tournoi de printemps</strong>
+            <div class="muted">21–23 mai • Stade principal</div>
+            <p>Tournoi de trois jours avec divisions jeunes et adultes. Bénévoles et arbitres recherchés.</p>
+          </div>
+          <div class="card">
+            <strong>Festival communautaire</strong>
+            <div class="muted">12 juin • Parc municipal</div>
+            <p>Journée familiale avec mini-jeux, ateliers, food trucks et stands de sponsors.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- === JOIN === -->
+    <section id="join">
+      <div class="container">
+        <h2 class="section-title">Devenir membre</h2>
+        <div class="join-grid">
+          <form id="join-form" class="card">
+            <label>Nom complet
+              <input type="text" name="name" required placeholder="Jean Dupont">
+            </label>
+            <label>Email
+              <input type="email" name="email" required placeholder="vous@example.com">
+            </label>
+            <label>Centres d’intérêt
+              <input type="text" name="interests" placeholder="Coaching, bénévolat, jeu">
+            </label>
+            <button type="submit">S’inscrire / Adhérer</button>
+            <div id="join-msg" class="form-msg">Merci ! Nous vous contacterons bientôt.</div>
+          </form>
+
+          <div class="card">
+            <strong>Avantages de l’adhésion</strong>
+            <ul>
+              <li>Priorité d’inscription</li>
+              <li>Réductions sur les stages</li>
+              <li>Accès aux événements réservés aux membres</li>
+            </ul>
+            <div class="fees">
+              <strong>Frais</strong>
+              <div>Jeunes : 30 $/saison • Adultes : 50 $/saison • Bénévoles : gratuit</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- === CONTACT === -->
+    <section id="contact">
+      <div class="container">
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-grid">
+          <div class="card">
+            <p class="muted">Pour toute question concernant l’inscription, le bénévolat ou les installations, envoyez-nous un message.</p>
+            <form id="contact-form">
+              <label>Nom
+                <input type="text" name="name" required>
+              </label>
+              <label>Email
+                <input type="email" name="email" required>
+              </label>
+              <label>Message
+                <textarea name="message" rows="4" required></textarea>
+              </label>
+              <button type="submit">Envoyer le message</button>
+              <div id="contact-msg" class="form-msg">Message envoyé.</div>
+            </form>
+          </div>
+
+          <div class="card">
+            <strong>Adresse</strong>
+            <div class="muted">123 avenue du Sport, Ville</div>
+            <div><strong>Téléphone</strong><div class="muted">+1 (555) 123-4567</div></div>
+            <div><strong>Heures d’ouverture</strong><div class="muted">Lun–Ven 9 h 00–17 h 00</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div class="muted">© Association Sportive de la Ville • Tous droits réservés</div>
+      <div class="footer-links">
+        <a href="#">Confidentialité</a>
+        <a href="#">Conditions</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
