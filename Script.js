@@ -1,28 +1,89 @@
-// === NAVIGATION MOBILE ===
-const toggle = document.querySelector('.menu-toggle');
-const navList = document.getElementById('main-nav');
+// === UTILITAIRES ===
+const $ = id => document.getElementById(id);
+const show = el => el.style.display = '';
+const hide = el => el.style.display = 'none';
+const msg = (text, type = '') => {
+  const m = $('message');
+  m.className = 'message ' + (type === 'success' ? 'success' : type === 'error' ? 'error' : '');
+  m.textContent = text;
+};
 
-toggle.addEventListener('click', () => {
-  const open = navList.classList.toggle('open');
-  toggle.setAttribute('aria-expanded', open);
+// === GESTION DES BOUTONS ===
+$('btn-login').addEventListener('click', () => {
+  hide($('register-form'));
+  hide($('message'));
+  show($('login-form'));
 });
 
-// === FORMULAIRE ADHÉSION ===
-const joinForm = document.getElementById('join-form');
-const joinMsg = document.getElementById('join-msg');
-
-joinForm.addEventListener('submit', e => {
-  e.preventDefault();
-  joinMsg.style.display = 'block';
-  joinForm.reset();
+$('btn-register').addEventListener('click', () => {
+  hide($('login-form'));
+  hide($('message'));
+  show($('register-form'));
 });
 
-// === FORMULAIRE CONTACT ===
-const contactForm = document.getElementById('contact-form');
-const contactMsg = document.getElementById('contact-msg');
-
-contactForm.addEventListener('submit', e => {
+// === INSCRIPTION ===
+async function authSignUp(e) {
   e.preventDefault();
-  contactMsg.style.display = 'block';
-  contactForm.reset();
+
+  const data = {
+    nom: $('reg-nom').value.trim(),
+    prenom: $('reg-prenom').value.trim(),
+    adresse: $('reg-adresse').value.trim(),
+    tel: $('reg-tel').value.trim(),
+    mobile: $('reg-mobile').value.trim(),
+    email: $('reg-email').value.trim().toLowerCase(),
+    mdp: $('reg-password').value
+  };
+
+  try {
+    const res = await fetch('register.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+    msg(result.message, result.status);
+  } catch (err) {
+    msg('Erreur serveur : ' + err.message, 'error');
+    console.error(err);
+  }
+}
+
+// === CONNEXION ===
+async function authSignIn(e) {
+  e.preventDefault(); // très important ! sinon le formulaire se soumet normalement
+
+  const data = {
+    email: document.getElementById('login-email').value.trim().toLowerCase(),
+    password: document.getElementById('login-password').value
+  };
+
+  try {
+    const res = await fetch('login.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+    alert(result.message); // pour tester
+    if (result.status === 'success') {
+      window.location.href = 'Main.html'; // redirection
+    }
+  } catch (err) {
+    alert('Erreur serveur : ' + err.message);
+    console.error(err);
+  }
+}
+
+
+// === DÉCONNEXION ===
+$('btn-logout').addEventListener('click', () => {
+  // Ici tu peux détruire la session côté PHP si besoin
+  fetch('logout.php').then(() => {
+    msg('Déconnecté.', 'success');
+    hide($('dashboard'));
+    show($('forms'));
+  });
 });
