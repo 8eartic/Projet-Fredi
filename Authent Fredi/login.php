@@ -1,51 +1,42 @@
 <?php
-// login.php
 session_start();
-header('Content-Type: application/json');
+require "db.php";
 
-require 'config.php';
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Lecture du JSON envoyé par fetch()
+    $json = file_get_contents("php://input");
+    $data = json_decode($json, true);
 
-if ($conn->connect_error) {
-    echo json_encode(["status" => "error", "message" => "Erreur de connexion à la base de données."]);
-    exit;
-}
-
-// Récupération des données JSON envoyées
-$data = json_decode(file_get_contents("php://input"), true);
-if (!$data) {
-    echo json_encode(["status" => "error", "message" => "Aucune donnée reçue."]);
-    exit;
-}
-
-$email = trim(strtolower($data["email"] ?? ""));
-$mdp = $data["password"] ?? "";
-
-if ($email === "" || $mdp === "") {
-    echo json_encode(["status" => "error", "message" => "Veuillez entrer un email et un mot de passe."]);
-    exit;
-}
-
-// Recherche de l'utilisateur
-$stmt = $conn->prepare("SELECT id, nom, prenom, mdp FROM membres WHERE email = ?");
-$stmt->bind_param("s", $email);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($user = $result->fetch_assoc()) {
-    if (password_verify($mdp, $user["mdp"])) {
-        $_SESSION["user_id"] = $user["id"];
-        $_SESSION["user_name"] = $user["prenom"];
-        echo json_encode([
-            "status" => "success",
-            "message" => "Connexion réussie ! Bienvenue " . htmlspecialchars($user["prenom"]) . "."
-        ]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "Mot de passe incorrect."]);
+    // Vérifie que les données ont bien été reçues
+    if (!$data) {
+        echo json_encode(["status" => "error", "message" => "Données invalides."]);
+        exit;
     }
-} else {
-    echo json_encode(["status" => "error", "message" => "Aucun compte trouvé pour cet email."]);
-}
 
-$stmt->close();
-$conn->close();
+    $email = strtolower(trim($data["email"] ?? ""));
+    $mdp = $data["password"] ?? "";
+
+    if (empty($email) || empty($mdp)) {
+        echo json_encode(["status" => "error", "message" => "Veuillez remplir tous les champs."]);
+        exit;
+    }
+
+    // Vérifie si l'utilisateur existe
+    $stmt = $db->prepare("SELECT * FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user && password_verify($mdp, $user["mdp"])) {
+        $_SESSION["user"] = [
+            "id" => $user["id"],
+            "nom" => $user["nom"],
+            "prenom" => $user["prenom"],
+            "email" => $user["email"]
+        ];
+
+        echo json_encode(["status" => "success", "message" => "Connexion réussie."]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Identifiants incorrects."]);
+    }
+}
 ?>

@@ -31,78 +31,29 @@
         </div>
 
         <!-- === FORMULAIRE CONNEXION === -->
-        <div id="login-form" style="display:none">
-          <form onsubmit="return authSignIn(event)">
-            <div class="field">
-              <label for="login-email">Email</label>
-              <input id="login-email" type="email" required />
-            </div>
-            <div class="field">
-              <label for="login-password">Mot de passe</label>
-              <input id="login-password" type="password" required minlength="6" />
-            </div>
-            <div>
-              <button type="submit">Se connecter</button>
-            </div>
-          </form>
+    <form id="login-form" onsubmit="return authSignIn(event)">
+  <input id="login-email" type="email" required />
+  <input id="login-password" type="password" required />
+  <button type="submit">Se connecter</button>
+</form>
         </div>
 
         <!-- === FORMULAIRE INSCRIPTION (COMPLET) === -->
         <div id="register-form">
-          <form onsubmit="return authSignUp(event)">
-            <div class="field">
-              <label for="reg-nom">Nom</label>
-              <input id="reg-nom" type="text" required>
-            </div>
-            <div class="field">
-              <label for="reg-prenom">Prénom</label>
-              <input id="reg-prenom" type="text" required>
-            </div>
-            <div class="field">
-              <label for="reg-adresse">Adresse</label>
-              <input id="reg-adresse" type="text" required>
-            </div>
-            <div class="field">
-              <label for="reg-tel">Téléphone</label>
-              <input id="reg-tel" type="text">
-            </div>
-            <div class="field">
-              <label for="reg-mobile">Mobile</label>
-              <input id="reg-mobile" type="text">
-            </div>
-            <div class="field">
-              <label for="reg-email">Email</label>
-              <input id="reg-email" type="email" required>
-            </div>
-            <div class="field">
-              <label for="reg-password">Mot de passe</label>
-              <input id="reg-password" type="password" required minlength="6">
-            </div>
-            <div>
-              <button type="submit">S'inscrire</button>
-            </div>
-          </form>
+            <form action="register.php" method="post">
+    <input type="text" name="nom" placeholder="Nom" required><br>
+    <input type="text" name="prenom" placeholder="Prénom" required><br>
+    <input type="text" name="adresse" placeholder="Adresse" required><br>
+    <input type="text" name="tel_portable" placeholder="Téléphone portable"><br>
+    <input type="text" name="tel_fixe" placeholder="Téléphone fixe"><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <input type="password" name="mdp" placeholder="Mot de passe" required><br>
+    <button type="submit">S'inscrire</button>
+  </form>
         </div>
 
         <div id="message" style="margin-top:12px"></div>
       </div>
-
-      <!-- === TABLEAU DE BORD (APRÈS CONNEXION) === -->
-      <div id="dashboard" style="display:none">
-        <div class="dashboard">
-          <div class="usercard">
-            <strong id="user-name"></strong>
-            <div id="user-email" class="small"></div>
-          </div>
-          <div>
-            <button id="btn-logout" class="alt">Se déconnecter</button>
-          </div>
-          <footer>Vous êtes connecté. Gérez vos inscriptions aux événements depuis votre compte.</footer>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <script src="script.js"></script>
 </body>
 </html>

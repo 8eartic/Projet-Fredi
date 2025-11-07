@@ -52,11 +52,11 @@ async function authSignUp(e) {
 
 // === CONNEXION ===
 async function authSignIn(e) {
-  e.preventDefault();
+  e.preventDefault(); // très important ! sinon le formulaire se soumet normalement
 
   const data = {
-    email: $('login-email').value.trim().toLowerCase(),
-    password: $('login-password').value
+    email: document.getElementById('login-email').value.trim().toLowerCase(),
+    password: document.getElementById('login-password').value
   };
 
   try {
@@ -67,17 +67,16 @@ async function authSignIn(e) {
     });
 
     const result = await res.json();
-    msg(result.message, result.status);
-
+    alert(result.message); // pour tester
     if (result.status === 'success') {
-      // Redirige vers le tableau de bord (si tu veux afficher une page séparée)
-      window.location.href = 'dashboard.php';
+      window.location.href = 'script.js'; // redirection
     }
   } catch (err) {
-    msg('Erreur serveur : ' + err.message, 'error');
+    alert('Erreur serveur : ' + err.message);
     console.error(err);
   }
 }
+
 
 // === DÉCONNEXION ===
 $('btn-logout').addEventListener('click', () => {
