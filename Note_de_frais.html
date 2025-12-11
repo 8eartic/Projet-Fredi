@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Note de frais</title>
+</head>
+<body>
+    <form action="Notefrais.php" method="post">
+    <h1>Note de frais des bénévoles</h1>
+    <input type="text" name="annee_civile" placeholder="Année civile" required><br>
+    <h2>Je soussigné(e) </h2>
+    <input type="text" name="nom">
+    <h3>Demeurant</h3>
+    <input type="text" name="adresse" placeholder="Adresse" required><br>
+    <h4>Certifie renoncer au remboursement des frais ci-dessous et les laisser à l'association</h4>
+    <input type="text" name="asso_lieux"placeholder="Association/lieux" required><br>
+    <p>En tant que don.</p>
+    <p>Frais de déplacement</p> 
+    <p>Tarif kilométrique appliqué pour le remboursement : 0,28e</p>
+<table>
+<colgroup>
+  <col style="background-color: yellow" span="9" />
+</colgroup>
+  <tr>
+    <td>Date jj/mm/aaaa</td>
+    <td>Motif</td>
+    <td>Trajet</td>
+    <td>Kms parcourus</td>
+    <td>Coût Trajet</td>
+    <td>Péages</td>
+    <td>Repas</td>
+    <td>Hébergement</td>
+    <td>Total</td>
+  </tr>
+  <tr>
+    <td><input type="text" name="date"></td>
+    <td><input type="text" name="motif"></td>
+    <td><input type="text" name="trajet"></td>
+    <td><input type="text" name="kms_parcourus"></td>
+    <td>&nbsp;</td>
+    <td><input type="text" name="péages"></td>
+    <td><input type="text" name="repas"></td>
+    <td><input type="text" name="hébergement"></td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+<p>Tarif kilométrique appliqué pour le remboursement : 0,28e</p>
+<input type="text" name="parent1" placeholder="Nom / N°licence" required><br>
+<input type="text" name="parent2" placeholder="Nom / N°licence" required><br>
+<p>Montant total des dons</p>
+<p>Pour bénéficier du reçu de dons, cette note de frais doit être accompagnée de toutes les justificatifs correspondants</p>
+A <input type="text" name="lieux" placeholder="Lieux" required> Le <input type="text" name="date_note_de_frais" placeholder="Date" required><br>
+<br>Signature du bénévole <input type="text" name="signature" placeholder="Signature" required><br>
+
+<p><input type="submit" name="Faire_note_de_frais" value="Terminer" required></p>
+
+
+
+</form>
+</body>
+
+
+
+
+</html>
