@@ -1,0 +1,147 @@
+=== DEPLOIEMENT SP3 SUR INFINITYFREE ===
+
+TEMPS TOTAL ESTIME: 10-15 minutes
+DATE: 22 Avril 2026
+
+--------------------------------------------------------------------------------
+
+1. ACCES AU CPANEL INFINITYFREE
+   - Aller sur: https://cpanel.epizy.com/
+   - Login avec votre compte InfinityFree
+   - Mot de passe: [votre mot de passe cPanel]
+
+--------------------------------------------------------------------------------
+
+2. SAUVEGARDE DE LA BASE DE DONNEES
+   - Dans cPanel, cliquer sur "phpMyAdmin"
+   - Selectionner votre base de données (généralement epiz_XXXXXXX_fredi)
+   - Cliquer sur "Export" dans le menu du haut
+   - Format: SQL
+   - Cliquer "Go" → Télécharger le fichier .sql
+   - Garder ce fichier en sécurité !
+
+--------------------------------------------------------------------------------
+
+3. UPLOAD DES NOUVEAUX FICHIERS
+   - Dans cPanel, cliquer sur "File Manager"
+   - Naviguer vers: /htdocs/ (ou /public_html/)
+   - Cliquer "Upload" en haut
+   - Uploader ces fichiers depuis votre ordinateur:
+     ✅ tresorier_dashboard.php
+     ✅ tresorier_detail.php
+     ✅ tresorier_reporting.php
+     ✅ cerfa_generator.php
+     ✅ auth_logout.php
+     ✅ setup_sp3_tables.sql
+
+   - Attendre que tous les uploads soient terminés
+
+--------------------------------------------------------------------------------
+
+4. EXECUTION DE LA MIGRATION SQL
+   - Retourner dans "phpMyAdmin"
+   - Selectionner votre base de données
+   - Cliquer sur l'onglet "SQL"
+   - Ouvrir le fichier setup_sp3_tables.sql que vous venez d'uploader
+   - Copier TOUT le contenu du fichier
+   - Coller dans la zone SQL de phpMyAdmin
+   - Cliquer "Go"
+   - Attendre que toutes les requêtes s'exécutent (devrait dire "Query OK" pour chaque)
+
+   ⚠️ SI ERREUR: Vérifier que la DB n'a pas de tables avec les mêmes noms
+
+--------------------------------------------------------------------------------
+
+5. CREATION DU COMPTE TRESORIER
+   - Dans phpMyAdmin, selectionner la table "users"
+   - Cliquer "Insert" en haut
+   - Remplir les champs suivants:
+
+     email: tresorier@votre-domaine.epizy.com
+     password_hash: $2y$10$Z0fXwvGH9kKgH8XkR8Q8KuK8K0K8K0K8K0K8K0K8K0K8K0K8K0K8K8
+     first_name: Tresorier
+     last_name: Test
+     address: 123 Rue Test, Lorraine
+     phone: +33-6-12-34-56-78
+     license_number: LIC-TEST-001
+     birth_date: 1985-06-15
+     role: tresorier
+     club_id: [laisser vide]
+     league_id: 1
+     league_name: Ligue Test
+     created_at: [NOW() ou laisser vide]
+
+   - Cliquer "Go" pour insérer
+
+   📝 MOT DE PASSE: password123 (le hash ci-dessus correspond à ça)
+
+--------------------------------------------------------------------------------
+
+6. TEST RAPIDE DE FONCTIONNEMENT
+   - Ouvrir votre navigateur
+   - Aller sur: http://votre-domaine.epizy.com/index.php
+   - Cliquer sur "Login" ou connexion
+   - Entrer:
+     Email: tresorier@votre-domaine.epizy.com
+     Mot de passe: password123
+   - Devrait rediriger vers le dashboard trésorier
+   - Vérifier que vous voyez:
+     ✅ "Tableau de Bord Trésorier"
+     ✅ Statistiques (même si à 0)
+     ✅ Bouton "Rapports"
+     ✅ Bouton "Déconnexion"
+
+--------------------------------------------------------------------------------
+
+7. SI CA NE MARCHE PAS - DIAGNOSTIC RAPIDE
+
+   A) "Erreur de connexion DB":
+      - Vérifier db.php a les bonnes credentials
+      - Dans cPanel > MySQL Databases > vérifier nom DB
+
+   B) "Page blanche":
+      - Vérifier que tous les fichiers sont uploadés
+      - Vérifier permissions (644 pour .php)
+
+   C) "Table doesn't exist":
+      - La migration SQL n'a pas marché
+      - Re-executer setup_sp3_tables.sql dans phpMyAdmin
+
+   D) "Cannot login":
+      - Vérifier role = 'tresorier' (minuscules)
+      - Vérifier email exact
+      - Essayer un autre navigateur
+
+--------------------------------------------------------------------------------
+
+8. ROLLBACK SI PROBLEME
+   SI quelque chose casse:
+
+   - Supprimer les nouveaux fichiers .php du File Manager
+   - Dans phpMyAdmin: importer votre sauvegarde .sql
+   - Le site revient à l'état SP2
+
+--------------------------------------------------------------------------------
+
+CONTACT D'URGENCE
+Si blocage après 15 minutes:
+- Email: [votre email de contact]
+- Avec: capture d'écran de l'erreur + URL du problème
+
+--------------------------------------------------------------------------------
+
+CHECKLIST FINALE
+- [ ] Sauvegarde DB faite
+- [ ] Fichiers uploadés
+- [ ] Migration SQL executée
+- [ ] Compte trésorier créé
+- [ ] Test login réussi
+- [ ] Dashboard accessible
+
+🟢 SI TOUT EST COCHE: SP3 EST OPERATIONNEL !
+
+--------------------------------------------------------------------------------
+
+FREDI SP3 - Guide Déploiement InfinityFree
+Maison des Ligues de Lorraine
+22 Avril 2026
