@@ -17,7 +17,7 @@ $error_messages = [
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FREDI - Gestionnaire de Missions Campus</title>
+    <title>FREDI - Gestionnaire de Missions</title>
     <link rel="stylesheet" href="style.css">
     <style>
         body {
@@ -215,7 +215,7 @@ $error_messages = [
 
     <section class="hero">
         <h1>FREDI</h1>
-        <p>Gestionnaire de Missions Campus</p>
+        <p>Gestionnaire de Missions</p>
         <p style="font-size: 16px; opacity: 0.9;">Simplifiez vos demandes de remboursement et gérez vos documents en un seul endroit</p>
         <div class="hero-buttons">
             <a href="login.php" class="btn-primary">Commencer</a>
@@ -244,7 +244,7 @@ $error_messages = [
     </section>
 
     <footer class="footer">
-        <p>&copy; 2026 FREDI - Gestionnaire de Missions Campus. Tous droits réservés.</p>
+        <p>&copy; 2026 FREDI - Gestionnaire de Missions. Tous droits réservés.</p>
     </footer>
 </body>
 </html>

@@ -12,7 +12,7 @@
 <div class="login-container">
   <div class="login-box">
     <h1>Connexion</h1>
-    <p class="subtitle">Gestionnaire de Missions Campus</p>
+    <p class="subtitle">Gestionnaire de Missions</p>
 
 <?php
 
