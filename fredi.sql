@@ -102,6 +102,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `license_number` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `birth_date` date DEFAULT NULL,
   `role` enum('adherent','tresorier','admin') COLLATE utf8mb4_unicode_ci DEFAULT 'adherent',
+  `reset_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reset_expiry` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)

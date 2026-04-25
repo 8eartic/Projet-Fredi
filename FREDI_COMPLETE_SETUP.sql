@@ -30,6 +30,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `license_number` varchar(50) DEFAULT NULL,
   `birth_date` date DEFAULT NULL,
   `role` enum('adherent','tresorier','admin') DEFAULT 'adherent',
+  `reset_token` varchar(255) DEFAULT NULL,
+  `reset_expiry` datetime DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `league_id` int(11) DEFAULT NULL,
   `league_name` varchar(100) DEFAULT NULL,

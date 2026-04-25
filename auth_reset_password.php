@@ -21,7 +21,7 @@ if (strlen($password) < 6) {
     exit;
 }
 
-$stmt = $db->prepare('SELECT pr.user_id FROM password_resets pr WHERE pr.token = ? AND pr.expires_at >= NOW()');
+$stmt = $db->prepare('SELECT id FROM users WHERE reset_token = ? AND reset_expiry >= NOW()');
 $stmt->execute([$token]);
 $reset = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -31,11 +31,8 @@ if (!$reset) {
 }
 
 $password_hash = password_hash($password, PASSWORD_DEFAULT);
-$stmt = $db->prepare('UPDATE users SET password_hash = ? WHERE id = ?');
-$stmt->execute([$password_hash, $reset['user_id']]);
-
-$stmt = $db->prepare('DELETE FROM password_resets WHERE user_id = ?');
-$stmt->execute([$reset['user_id']]);
+$stmt = $db->prepare('UPDATE users SET password_hash = ?, reset_token = NULL, reset_expiry = NULL WHERE id = ?');
+$stmt->execute([$password_hash, $reset['id']]);
 
 header('Location: login.php?message=' . urlencode('Votre mot de passe a été mis à jour. Connectez-vous maintenant.'));
 exit;

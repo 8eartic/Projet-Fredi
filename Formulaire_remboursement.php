@@ -437,7 +437,7 @@ button:active {
 .justificatif-row {
     display: grid;
     grid-template-columns: 1fr auto auto;
-    gap: 12px;
+    gap: 24px;
     margin-bottom: 12px;
     align-items: center;
 }
@@ -517,6 +517,7 @@ button:active {
     display: inline-block;
     width: 46px;
     height: 26px;
+    
 }
 
 .switch input {
@@ -665,7 +666,6 @@ header h1 {
         <h1><?php echo $isEdit ? 'Modifier la demande de remboursement' : 'Fiche de remboursement'; ?></h1>
     </div>
     <div style="display:flex; gap:10px; align-items:center;">
-        <a href="index.php" class="nav-btn">🏠 Accueil</a>
         <a href="auth_logout.php" class="logout-btn">🚪 Déconnexion</a>
     </div>
 </header>
@@ -673,7 +673,6 @@ header h1 {
 <?php if ($role === 'SUPERVISEUR'): ?>
 <div class="header">
     <div class="nav-buttons">
-        <a href="index.php" class="nav-btn">🏠 Accueil</a>
         <a href="Formulaire_remboursement_superviseur.php">← Retour à la gestion</a>
         <a href="create_mission.php">➕ Nouvelle mission</a>
     </div>
@@ -711,7 +710,7 @@ header h1 {
         <div id="transport_container">
             <div class="justificatif-row">
                 <input type="file" name="transport[]" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-                <div style="display:flex;align-items:center;gap:10px;grid-column:2;">
+                <div style="display:flex;align-items:center;gap:4px;grid-column:2;">
                     <input type="hidden" name="transport_don[]" value="0">
                     <input type="number" step="0.01" name="transport_montant[]" placeholder="Montant (€)" style="flex:1;">
                     <label class="switch">
@@ -747,7 +746,7 @@ header h1 {
         <div id="hebergement_container">
             <div class="justificatif-row">
                 <input type="file" name="hebergement[]" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-                <div style="display:flex;align-items:center;gap:10px;grid-column:2;">
+                <div style="display:flex;align-items:center;gap:4px;grid-column:2;">
                     <input type="hidden" name="hebergement_don[]" value="0">
                     <input type="number" step="0.01" name="hebergement_montant[]" placeholder="Montant (€)" style="flex:1;">
                     <label class="switch">
@@ -781,7 +780,7 @@ header h1 {
         <div id="parking_container">
             <div class="justificatif-row">
                 <input type="file" name="parking[]" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-                <div style="display:flex;align-items:center;gap:10px;grid-column:2;">
+                <div style="display:flex;align-items:center;gap:4px;grid-column:2;">
                     <input type="hidden" name="parking_don[]" value="0">
                     <input type="number" step="0.01" name="parking_montant[]" placeholder="Montant (€)" style="flex:1;">
                     <label class="switch">
@@ -817,7 +816,7 @@ header h1 {
         <div id="carburant_container">
             <div class="justificatif-row">
                 <input type="file" name="carburant[]" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-                <div style="display:flex;align-items:center;gap:10px;grid-column:2;">
+                <div style="display:flex;align-items:center;gap:4px;grid-column:2;">
                     <input type="hidden" name="carburant_don[]" value="0">
                     <input type="number" step="0.01" name="carburant_montant[]" placeholder="Montant (€)" style="flex:1;">
                     <label class="switch">
@@ -853,7 +852,7 @@ header h1 {
         <div id="autres_frais_container">
             <div class="justificatif-row">
                 <input type="file" name="autres_frais[]" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx">
-                <div style="display:flex;align-items:center;gap:10px;grid-column:2;">
+                <div style="display:flex;align-items:center;gap:4px;grid-column:2;">
                     <input type="hidden" name="autres_frais_don[]" value="0">
                     <input type="number" step="0.01" name="autres_frais_montant[]" placeholder="Montant (€)" style="flex:1;">
                     <label class="switch">
@@ -939,7 +938,7 @@ function addJustificatif(categorie) {
     row.className = 'justificatif-row';
     row.innerHTML = `
         <input type="file" name="${categorie}[]" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" style="margin-bottom: 8px;">
-        <div style="display:flex;align-items:center;gap:10px;grid-column:2;">
+        <div style="display:flex;align-items:center;gap:4px;grid-column:2;">
             <input type="hidden" name="${categorie}_don[]" value="0">
             <input type="number" step="0.01" name="${categorie}_montant[]" placeholder="Montant (€)" style="flex:1;" onchange="calculTotals()">
             <label class="switch">

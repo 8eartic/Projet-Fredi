@@ -1,3 +1,8 @@
+<?php
+session_start();
+$message = $_GET['message'] ?? null;
+$error = $_GET['error'] ?? null;
+?>
 <!doctype html>
 <html lang="fr">
 
@@ -21,11 +26,24 @@
       <button type="submit" class="btn-apple">Envoyer le lien</button>
     </form>
 
-    <?php if (isset($_GET['message'])): ?>
-      <p class="message success"><?php echo htmlspecialchars($_GET['message'], ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8'); ?></p>
+    <?php if ($message): ?>
+      <p class="message success"><?php echo htmlspecialchars($message, ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8'); ?></p>
     <?php endif; ?>
-    <?php if (isset($_GET['error'])): ?>
-      <p class="message error"><?php echo htmlspecialchars($_GET['error'], ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8'); ?></p>
+    
+    <?php if (isset($_SESSION['reset_link'])): ?>
+      <div style="margin-top: 20px; padding: 15px; background: #e3f2fd; border-left: 4px solid #1565c0; border-radius: 4px;">
+        <p style="color: #1565c0; font-weight: 600; margin: 0 0 10px 0;">Link de reinitialisation :</p>
+        <p style="margin: 0; word-break: break-all; font-size: 13px;">
+          <a href="<?php echo htmlspecialchars($_SESSION['reset_link']); ?>" style="color: #1565c0; text-decoration: underline;">
+            <?php echo htmlspecialchars($_SESSION['reset_link']); ?>
+          </a>
+        </p>
+        <?php unset($_SESSION['reset_link']); ?>
+      </div>
+    <?php endif; ?>
+    
+    <?php if ($error): ?>
+      <p class="message error"><?php echo htmlspecialchars($error, ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8'); ?></p>
     <?php endif; ?>
 
     <div style="margin-top:20px; text-align:center; border-top:1px solid #eee; padding-top:15px;">

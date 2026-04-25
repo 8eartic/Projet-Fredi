@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/helpers.php';
-$host = 'sql211.infinityfree.com';
-$dbname = 'if0_41723856_fredi';
-$user = 'if0_41723856';
-$pass = 'rffoTlbcLNbeycr';
+$host = 'localhost';
+$dbname = 'fredi';
+$user = 'root';
+$pass = '';
 
 try {
     $db = new PDO(

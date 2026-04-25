@@ -1,9 +1,20 @@
 <?php
+require 'db.php';
+
 if (empty($_GET['token'])) {
     header('Location: login.php');
     exit;
 }
+
 $token = $_GET['token'];
+$stmt = $db->prepare('SELECT id, reset_expiry FROM users WHERE reset_token = ?');
+$stmt->execute([$token]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$user || strtotime($user['reset_expiry']) < time()) {
+    header('Location: login.php?error=' . urlencode('Lien de réinitialisation invalide ou expiré.'));
+    exit;
+}
 ?>
 <!doctype html>
 <html lang="fr">

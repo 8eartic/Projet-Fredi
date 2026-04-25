@@ -43,11 +43,6 @@ try {
         $params[':month'] = $month;
     }
     
-    if ($league) {
-        $stats_query .= " AND r.league_id = :league";
-        $params[':league'] = $league;
-    }
-    
     $stmt = $db->prepare($stats_query);
     $stmt->execute($params);
     $stats = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -70,11 +65,6 @@ try {
         $params_cat[':month'] = $month;
     }
     
-    if ($league) {
-        $category_query .= " AND r.league_id = :league";
-        $params_cat[':league'] = $league;
-    }
-    
     $category_query .= " GROUP BY d.categorie ORDER BY category_total DESC";
     
     $stmt_cat = $db->prepare($category_query);
@@ -83,8 +73,8 @@ try {
     
     // -- Détail par ligue
     $league_query = "SELECT 
-        r.league_id,
-        r.league_name,
+        YEAR(r.date_demande) as year,
+        MONTH(r.date_demande) as month,
         COUNT(DISTINCT r.id_remboursement) as report_count,
         SUM(d.montant) as league_total,
         SUM(CASE WHEN r.validation_status = 'valide' THEN d.montant ELSE 0 END) as validated_total
@@ -99,7 +89,7 @@ try {
         $params_league[':month'] = $month;
     }
     
-    $league_query .= " GROUP BY r.league_id, r.league_name ORDER BY league_total DESC";
+    $league_query .= " GROUP BY YEAR(r.date_demande), MONTH(r.date_demande) ORDER BY league_total DESC";
     
     $stmt_league = $db->prepare($league_query);
     $stmt_league->execute($params_league);
@@ -118,11 +108,6 @@ try {
     
     $params_month = [':year' => $year];
     
-    if ($league) {
-        $monthly_query .= " AND r.league_id = :league";
-        $params_month[':league'] = $league;
-    }
-    
     $monthly_query .= " GROUP BY MONTH(r.date_demande) ORDER BY month_num";
     
     $stmt_month = $db->prepare($monthly_query);
@@ -130,10 +115,12 @@ try {
     $monthly = $stmt_month->fetchAll(PDO::FETCH_ASSOC);
     
     // -- Lister les ligues pour le filtre
-    $leagues_list_query = "SELECT DISTINCT league_id, league_name FROM remboursement WHERE league_id IS NOT NULL ORDER BY league_name";
+    $leagues_list_query = "SELECT COUNT(DISTINCT id_remboursement) as report_count FROM remboursement WHERE id_remboursement IS NOT NULL ORDER BY report_count DESC";
     $stmt_leagues_list = $db->prepare($leagues_list_query);
     $stmt_leagues_list->execute();
-    $leagues_available = $stmt_leagues_list->fetchAll(PDO::FETCH_ASSOC);
+    $leagues_available = [];
+    
+    $league = null;
     
 } catch (Exception $e) {
     $_SESSION['error'] = "Erreur lors du chargement des rapports: " . $e->getMessage();
