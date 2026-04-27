@@ -28,7 +28,7 @@ if ($report_id <= 0) {
 
 try {
     $stmt = $db->prepare("
-        SELECT r.*, u.first_name, u.last_name, u.email, u.address, u.phone, 
+        SELECT r.*, u.first_name, u.last_name, u.email,
                u.license_number, u.league_name, u.club_id
         FROM remboursement r
         JOIN users u ON r.id_utilisateur = u.id
@@ -320,16 +320,8 @@ try {
                     <div><?= htmlspecialchars($report['first_name'] . ' ' . $report['last_name']) ?></div>
                 </div>
                 <div class="info-row">
-                    <div class="info-label">Adresse:</div>
-                    <div><?= htmlspecialchars($report['address'] ?? 'Non fourni') ?></div>
-                </div>
-                <div class="info-row">
                     <div class="info-label">Email:</div>
                     <div><?= htmlspecialchars($report['email']) ?></div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Téléphone:</div>
-                    <div><?= htmlspecialchars($report['phone'] ?? 'Non fourni') ?></div>
                 </div>
                 <div class="info-row">
                     <div class="info-label">N° Licence:</div>

@@ -244,7 +244,7 @@ $error_messages = [
     </section>
 
     <footer class="footer">
-        <p>&copy; 2026 FREDI - Gestionnaire de Missions Campus. Tous droits réservés.</p>
+        <p>&copy; 2026 FREDI - Gestionnaire de Missions. Tous droits réservés</p>
     </footer>
 </body>
 </html>

@@ -24,7 +24,7 @@ $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https' : 'http';
 $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
-$resetLink = "$protocol://$host/frederique/reset_password.php?token=";
+$resetLink = "$protocol://$host/Projet-Fredi/reset_password.php?token=";
 
 $messageText = 'Si cet email existe, un lien de réinitialisation a été envoyé.';
 

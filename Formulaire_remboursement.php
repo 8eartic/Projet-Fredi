@@ -62,6 +62,51 @@ if (isset($_GET['edit'])) {
 }
 
 /* ===============================
+   SUPPRESSION D'UNE DEMANDE
+================================ */
+if (isset($_GET['delete'])) {
+    $id = (int)$_GET['delete'];
+    $stmt = $pdo->prepare("SELECT * FROM remboursement WHERE id_remboursement = ? AND id_utilisateur = ?");
+    $stmt->execute([$id, $id_user]);
+    $deleteData = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($deleteData) {
+        $dateDemande = new DateTime($deleteData['date_demande']);
+        $now = new DateTime();
+        $interval = $now->diff($dateDemande);
+        $hours = $interval->h + ($interval->days * 24);
+        
+        if ($hours > 72) {
+            $message = "❌ La demande ne peut plus être supprimée (délai de 72h dépassé).";
+        } elseif ($deleteData['statut'] !== 'EN_ATTENTE') {
+            $message = "❌ Seules les demandes en attente peuvent être supprimées.";
+        } else {
+            // Supprimer les fichiers associés
+            $stmt = $pdo->prepare("SELECT chemin_fichier FROM documents WHERE id_remboursement = ?");
+            $stmt->execute([$id]);
+            $files = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($files as $file) {
+                if (file_exists($file['chemin_fichier'])) {
+                    unlink($file['chemin_fichier']);
+                }
+            }
+            
+            // Supprimer les documents de la base de données
+            $stmt = $pdo->prepare("DELETE FROM documents WHERE id_remboursement = ?");
+            $stmt->execute([$id]);
+            
+            // Supprimer la demande de remboursement
+            $stmt = $pdo->prepare("DELETE FROM remboursement WHERE id_remboursement = ?");
+            $stmt->execute([$id]);
+            
+            $message = "✅ Demande de remboursement supprimée avec succès.";
+        }
+    } else {
+        $message = "❌ Demande introuvable ou vous n'avez pas les droits d'accès.";
+    }
+}
+
+/* ===============================
    RÉCUPÉRATION DES DOCUMENTS EXISTANTS
 ================================ */
 function getExistingDocuments($id_remboursement, $pdo) {
@@ -184,9 +229,20 @@ function uploadDocuments($files, $id_remboursement, $pdo, $id_mission = null, $u
 }
 
 /* ===============================
-   TRAITEMENT POST
+   TRAITEMENT POST - HISTORIQUE
 ================================ */
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
+$history = [];
+if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['show_history'])) {
+    $hist_user = !empty($_POST['id_utilisateur']) ? (int)$_POST['id_utilisateur'] : $id_user;
+    $stmt = $pdo->prepare("SELECT id_remboursement, date_demande, total, statut FROM remboursement WHERE id_utilisateur = ? ORDER BY date_demande DESC");
+    $stmt->execute([$hist_user]);
+    $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+/* ===============================
+   TRAITEMENT POST - FORMULAIRE REMBOURSEMENT
+================================ */
+if ($_SERVER["REQUEST_METHOD"] === "POST" && !isset($_POST['show_history'])) {
     // Vérification CSRF
     if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])) {
         $message = "❌ Requête invalide (CSRF).";
@@ -259,18 +315,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         uploadDocuments($_FILES, $lastInsertId, $pdo, $missionId, $nom_utilisateur);
         $message = "✅ Demande de remboursement enregistrée.";
     }
-}
-
-/* ===============================
-   HISTORIQUE DES DEMANDES
-================================ */
-$history = [];
-if (isset($_POST['show_history'])) {
-    // utiliser soit le champ id_utilisateur fourni, soit l'utilisateur connecté
-    $hist_user = !empty($_POST['id_utilisateur']) ? (int)$_POST['id_utilisateur'] : $id_user;
-    $stmt = $pdo->prepare("SELECT id_remboursement, date_demande, total, statut FROM remboursement WHERE id_utilisateur = ? ORDER BY date_demande DESC");
-    $stmt->execute([$hist_user]);
-    $history = $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 }
 ?>
@@ -899,13 +943,24 @@ header h1 {
             <?php
             $statutColor = [
                 'EN_ATTENTE' => '#ff9800',
+                'VALIDE' => '#4caf50',
+                'REFUSE' => '#f44336',
                 'ACCEPTEE' => '#4caf50',
                 'REFUSEE' => '#f44336',
                 'PAYEE' => '#2196f3'
             ];
+            $statutLabel = [
+                'EN_ATTENTE' => 'En attente',
+                'VALIDE' => 'Validé',
+                'REFUSE' => 'Refusé',
+                'ACCEPTEE' => 'Validé',
+                'REFUSEE' => 'Refusé',
+                'PAYEE' => 'Payé'
+            ];
             $color = $statutColor[$h['statut']] ?? '#999';
+            $label = $statutLabel[$h['statut']] ?? ($h['statut'] ?: 'Inconnu');
             ?>
-            <span style="padding: 6px 12px; background: <?= $color ?>15; color: <?= $color ?>; border-radius: 6px; font-weight: 600; font-size: 12px;"><?= $h['statut'] ?></span>
+            <span style="padding: 6px 12px; background: <?= $color ?>15; color: <?= $color ?>; border-radius: 6px; font-weight: 600; font-size: 12px;"><?= htmlspecialchars($label) ?></span>
         </td>
         <td style="padding: 14px; border: 1px solid #e0e0e0; text-align: center;">
             <?php
@@ -914,7 +969,8 @@ header h1 {
             $interval = $now->diff($dateDemande);
             $hours = $interval->h + ($interval->days * 24);
             if ($hours <= 72 && $h['statut'] === 'EN_ATTENTE') {
-                echo '<a href="?edit=' . $h['id_remboursement'] . '" style="color: #1565c0; text-decoration: none; font-weight: 600; padding: 6px 12px; border-radius: 6px; border: 1px solid #1565c0; transition: all 0.3s; display: inline-block;">✏️ Modifier</a>';
+                echo '<a href="?edit=' . $h['id_remboursement'] . '" style="color: #1565c0; text-decoration: none; font-weight: 600; padding: 6px 12px; border-radius: 6px; border: 1px solid #1565c0; transition: all 0.3s; display: inline-block; margin-right: 6px;">✏️ Modifier</a>';
+                echo '<a href="?delete=' . $h['id_remboursement'] . '" onclick="return confirm(\'Êtes-vous sûr de vouloir supprimer cette demande ?\')" style="color: #f44336; text-decoration: none; font-weight: 600; padding: 6px 12px; border-radius: 6px; border: 1px solid #f44336; transition: all 0.3s; display: inline-block;">🗑️ Supprimer</a>';
             } else {
                 echo '<span style="color: #999;">—</span>';
             }

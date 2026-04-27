@@ -114,6 +114,32 @@ try {
     $stmt_month->execute($params_month);
     $monthly = $stmt_month->fetchAll(PDO::FETCH_ASSOC);
     
+    // -- Liste détaillée des bordereaux avec qui les a créés
+    $detail_reports_query = "SELECT 
+        r.id_remboursement,
+        r.date_demande,
+        r.statut,
+        r.total,
+        u.prenom,
+        u.nom,
+        u.email
+    FROM remboursement r
+    LEFT JOIN users u ON r.id_utilisateur = u.id
+    WHERE YEAR(r.date_demande) = :year";
+    
+    $params_detail = [':year' => $year];
+    
+    if ($month) {
+        $detail_reports_query .= " AND MONTH(r.date_demande) = :month";
+        $params_detail[':month'] = $month;
+    }
+    
+    $detail_reports_query .= " ORDER BY r.date_demande DESC";
+    
+    $stmt_detail = $db->prepare($detail_reports_query);
+    $stmt_detail->execute($params_detail);
+    $detail_reports = $stmt_detail->fetchAll(PDO::FETCH_ASSOC);
+    
     // -- Lister les ligues pour le filtre
     $leagues_list_query = "SELECT COUNT(DISTINCT id_remboursement) as report_count FROM remboursement WHERE id_remboursement IS NOT NULL ORDER BY report_count DESC";
     $stmt_leagues_list = $db->prepare($leagues_list_query);
@@ -444,53 +470,7 @@ if ($export_format === 'csv') {
             </div>
         </div>
         
-        <!-- MESSAGES -->
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="message error">
-                ❌ <?= $_SESSION['error'] ?>
-                <?php unset($_SESSION['error']); ?>
-            </div>
-        <?php endif; ?>
         
-        <!-- FILTRES -->
-        <form method="GET" class="filters">
-            <div class="filter-group">
-                <label for="year">Année:</label>
-                <select name="year" id="year">
-                    <?php for ($y = date('Y'); $y >= 2024; $y--): ?>
-                        <option value="<?= $y ?>" <?= $year == $y ? 'selected' : '' ?>><?= $y ?></option>
-                    <?php endfor; ?>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label for="month">Mois (optionnel):</label>
-                <select name="month" id="month">
-                    <option value="">Tous les mois</option>
-                    <?php for ($m = 1; $m <= 12; $m++): ?>
-                        <option value="<?= $m ?>" <?= $month == $m ? 'selected' : '' ?>>
-                            <?= strftime('%B', mktime(0,0,0,$m,1)) ?>
-                        </option>
-                    <?php endfor; ?>
-                </select>
-            </div>
-            
-            <div class="filter-group">
-                <label for="league">Ligue (optionnel):</label>
-                <select name="league" id="league">
-                    <option value="">Toutes les ligues</option>
-                    <?php foreach ($leagues_available as $l): ?>
-                        <option value="<?= $l['league_id'] ?>" <?= $league == $l['league_id'] ? 'selected' : '' ?>>
-                            <?= htmlspecialchars($l['league_name']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            
-            <div class="filter-actions">
-                <button type="submit">🔎 Appliquer</button>
-            </div>
-        </form>
         
         <!-- STATISTIQUES -->
         <div class="stats-grid">
@@ -545,30 +525,6 @@ if ($export_format === 'csv') {
             </table>
         </div>
         
-        <!-- DÉTAIL PAR LIGUE -->
-        <div class="table-container">
-            <div class="table-title">🏆 Détail par Ligue</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ligue</th>
-                        <th>Rapports</th>
-                        <th class="amount">Montant Total (€)</th>
-                        <th class="amount">Montant Validé (€)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($leagues as $l): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($l['league_name']) ?></td>
-                            <td><?= $l['report_count'] ?></td>
-                            <td class="amount"><?= number_format($l['league_total'] ?? 0, 2) ?></td>
-                            <td class="amount"><?= number_format($l['validated_total'] ?? 0, 2) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
         
         <!-- DÉTAIL PAR MOIS -->
         <?php if (!empty($monthly)): ?>
@@ -590,6 +546,50 @@ if ($export_format === 'csv') {
                                 <td><?= $m['report_count'] ?></td>
                                 <td class="amount"><?= number_format($m['month_total'] ?? 0, 2) ?></td>
                                 <td class="amount"><?= number_format($m['validated_total'] ?? 0, 2) ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?>
+        
+        <!-- DÉTAIL DES BORDEREAUX INDIVIDUELS -->
+        <?php if (!empty($detail_reports)): ?>
+            <div class="table-container">
+                <div class="table-title">📋 Détail des Bordereaux - Créé par</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Bordereau</th>
+                            <th>Date</th>
+                            <th>Créé par (Nom)</th>
+                            <th>Email</th>
+                            <th>Montant (€)</th>
+                            <th>Statut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($detail_reports as $report): ?>
+                            <tr>
+                                <td>#<?= htmlspecialchars($report['id_remboursement']) ?></td>
+                                <td><?= (new DateTime($report['date_demande']))->format('d/m/Y H:i') ?></td>
+                                <td><?= htmlspecialchars($report['prenom'] . ' ' . $report['nom']) ?></td>
+                                <td><?= htmlspecialchars($report['email'] ?? '-') ?></td>
+                                <td class="amount"><?= number_format($report['total'] ?? 0, 2) ?></td>
+                                <td>
+                                    <?php
+                                        $statutColor = [
+                                            'EN_ATTENTE' => '#ff9800',
+                                            'ACCEPTEE' => '#4caf50',
+                                            'REFUSEE' => '#f44336',
+                                            'PAYEE' => '#2196f3'
+                                        ];
+                                        $color = $statutColor[$report['statut']] ?? '#999';
+                                    ?>
+                                    <span style="padding: 4px 8px; background: <?= $color ?>15; color: <?= $color ?>; border-radius: 4px; font-weight: 600; font-size: 12px;">
+                                        <?= htmlspecialchars($report['statut']) ?>
+                                    </span>
+                                </td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

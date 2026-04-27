@@ -22,10 +22,10 @@
         <input type="text" name="last_name" placeholder="Nom" required>
       </div>
       <div class="form-group">
-        <input type="text" name="address" placeholder="Adresse" required>
+        <input type="text" name="license_number" placeholder="N° de licence" required>
       </div>
       <div class="form-group">
-        <input type="tel" name="phone" placeholder="Numéro de téléphone" required>
+        <input type="text" name="league_name" placeholder="Ligue d'affiliation" required>
       </div>
       <div class="form-group">
         <input type="email" name="email" placeholder="Email" required>
