@@ -1,0 +1,515 @@
+/* =========================
+   RESET & BASE
+========================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #f8f9fa;
+    min-height: 100vh;
+    padding: 30px 20px;
+    color: #333;
+}
+
+/* Page de Connexion */
+body.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 0;
+}
+
+.login-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-box {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.login-box h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 28px;
+}
+
+.login-box .subtitle {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+}
+
+.login-box input:focus {
+    outline: none;
+    background: white;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.login-box .btn-apple {
+    width: 100%;
+    margin: 24px 0 0 0 !important;
+    padding: 12px 16px !important;
+}
+
+.login-box .message.error {
+    background: #fee;
+    color: #c33;
+    border: 1px solid #fcc;
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 16px;
+    text-align: center;
+}
+
+.message {
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.message.error {
+    background: #fee;
+    color: #c33;
+    border: 1px solid #fcc;
+    border-left: 4px solid #c33;
+}
+
+.message.success {
+    background: #efe;
+    color: #3c3;
+    border: 1px solid #cfc;
+    border-left: 4px solid #3c3;
+}
+
+/* =========================
+   CONTAINERS
+========================= */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 900px;
+    width: 100%;
+    margin: auto;
+    min-height: 100vh;
+    place-items: center;
+}
+
+/* navigation links */
+.nav-link {
+    text-decoration: none;
+    padding: 8px 12px;
+    display: inline-block;
+    color: #333;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.nav-link:hover {
+    background: #f0f0f0;
+}
+
+.nav-link.active {
+    background: #1565c0;
+    color: white;
+}
+
+/* =========================
+   CARDS (menus & boutons)
+========================= */
+.card {
+    height: 200px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* Variantes */
+.card-red     { background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%); }
+.card-blue    { background: linear-gradient(135deg, #004E89 0%, #0066BB 100%); }
+.card-yellow  { background: linear-gradient(135deg, #FF8C42 0%, #FFA500 100%); }
+.card-purple  { background: linear-gradient(135deg, #004E89 0%, #00295B 100%); }
+.card-1       { background: linear-gradient(135deg, #FF6B35 0%, #FF8C42 100%); }
+.card-2       { background: linear-gradient(135deg, #004E89 0%, #0066BB 100%); }
+.card-3       { background: linear-gradient(135deg, #FF8C42 0%, #FFA500 100%); }
+.card-4       { background: linear-gradient(135deg, #004E89 0%, #00295B 100%); }
+.card-5       { background: white; color: #333; border: 2px solid #FF6B35; box-shadow: 0 5px 15px rgba(255, 107, 53, 0.2); }
+.card-6       { background: linear-gradient(135deg, #1a1a1a 0%, #333333 100%); }
+/* Petit bouton style card */
+.card-small {
+    height: 50px;
+    width: 200px;
+    font-size: 16px;
+}
+
+/* =========================
+   FORMULAIRES
+========================= */
+form {
+    background: #fff;
+    padding: 35px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    padding: 12px 16px;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #fafafa;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #1565c0;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(21, 101, 192, 0.1);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+form label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-top: 16px;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+/* Section de formulaire */
+.section {
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 24px;
+    padding-bottom: 0;
+}
+
+.section h3 {
+    color: #1565c0;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* =========================
+   BOUTONS
+========================= */
+button {
+    padding: 12px 20px;
+    margin-top: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: #1565c0;
+    color: white;
+}
+
+button:hover {
+    background: #1052a3;
+    box-shadow: 0 4px 12px rgba(21, 101, 192, 0.25);
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Bouton secondary */
+.btn-secondary {
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #e0e0e0;
+}
+
+.btn-secondary:hover {
+    background: #ececec;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: #000;
+}
+
+.btn-small {
+    padding: 8px 12px;
+    font-size: 13px;
+    width: auto !important;
+    display: inline-block;
+}
+
+/* Bouton style Apple */
+.btn-apple {
+    background: #000;
+    color: white;
+    border-radius: 12px;
+    padding: 14px 32px !important;
+    margin: 28px auto 0 !important;
+    font-weight: 600;
+    font-size: 15px;
+    width: auto !important;
+    display: block;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    border: none;
+}
+
+.btn-apple:hover {
+    background: #1a1a1a;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    opacity: 1;
+    transform: translateY(-2px);
+}
+
+.btn-apple:active {
+    transform: scale(0.97);
+}
+
+/* Toggle Switch style Apple */
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    margin: 12px 0;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #f0f0f0;
+}
+
+.toggle-label {
+    font-weight: 600;
+    font-size: 14px;
+    margin: 0;
+    color: #333;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    margin-left: 12px;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.toggle-switch .slider {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border-radius: 12px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.toggle-switch.active .slider {
+    transform: translateX(20px);
+}
+
+.toggle-switch.active {
+    background-color: #34C759;
+}
+
+.toggle-switch input:checked + .slider {
+    transform: translateX(20px);
+}
+
+.toggle-switch input:checked ~ {
+    background-color: #34C759;
+}
+
+/* Boutons statut */
+.btn-success { background: green; }
+.btn-danger  { background: red; }
+.btn-warning { background: orange; }
+.btn-info    { background: blue; }
+
+/* =========================
+   MISSIONS
+========================= */
+.mission {
+    background: #fff;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.mission-header {
+    padding: 15px;
+    cursor: pointer;
+    background: #eaeaea;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.mission-content {
+    display: none;
+    padding: 15px;
+}
+
+.trajet {
+    margin-top: 16px;
+    padding: 16px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border-left: 4px solid #1565c0;
+}
+
+.escale {
+    margin-top: 12px;
+    padding: 12px;
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    font-size: 0.95em;
+    color: #555;
+}
+
+.escale strong {
+    display: block;
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* =========================
+   STATUTS
+========================= */
+.status-EN_ATTENTE { color: orange; }
+.status-ACCEPTEE   { color: green; }
+.status-REFUSEE    { color: red; }
+.status-EN_COURS   { color: blue; }
+.status-FINIE      { color: gray; }
+
+/* =========================
+   TITRES
+========================= */
+h1 {
+    color: #1a1a1a;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+h2 {
+    color: #1a1a1a;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 28px;
+    text-align: center;
+}
+
+h3 {
+    color: #1565c0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+/* Top Actions */
+.top-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+/* =========================
+   WRAPPERS CENTRÉS
+========================= */
+.page-center {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+.page-center .content {
+    width: 100%;
+    max-width: 900px;
+}
