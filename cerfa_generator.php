@@ -8,14 +8,15 @@
 session_start();
 require_once __DIR__ . '/db.php';
 
-// Vérifier authentification trésorier
+// Vérifie que l'utilisateur est bien connecté et qu'il a le rôle tresorier. Si ce n'est pas le cas :
 if (empty($_SESSION['utilisateur']) || $_SESSION['utilisateur']['role'] !== 'tresorier') {
-    header('Location: index.php?error=auth');
+    header('Location: index.php?error=auth');   // Redirige vers la page d'accueil avec une erreur et arrête le script — personne d'autre ne peut accéder à ce document.
     exit;
 }
 
-$tresorier_id = (int) $_SESSION['utilisateur']['id'];
-$report_id = (int) ($_GET['id'] ?? 0);
+// Identifiants nécessaires pour récupérer le bordereau validé.
+$tresorier_id = (int) $_SESSION['utilisateur']['id'];   // Récupère l'ID du trésorier connecté et le force en entier (sécurité).
+$report_id = (int) ($_GET['id'] ?? 0);  // Récupère l'ID du bordereau passé dans l'URL (?id=5 par exemple). Si absent, vaut 0.
 $copy_type = $_GET['copy'] ?? 'original'; // original ou copy
 
 if ($report_id <= 0) {
@@ -26,8 +27,8 @@ if ($report_id <= 0) {
 // CHARGER LES DONNÉES
 // ======================================
 
-try {
-    $stmt = $db->prepare("
+try {       // Récupère les infos du remboursement et les infos de l'utilisateur associé (nom, email, licence...)
+    $stmt = $db->prepare("      
         SELECT r.*, u.first_name, u.last_name, u.email,
                u.license_number, u.league_name, u.club_id
         FROM remboursement r
@@ -68,208 +69,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CERFA - <?= $cerfa_number ?></title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Arial', sans-serif;
-            background: #f0f0f0;
-            padding: 20px;
-        }
-        
-        @media print {
-            body {
-                background: white;
-                padding: 0;
-            }
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        @media print {
-            .container {
-                box-shadow: none;
-                border-radius: 0;
-                max-width: 100%;
-            }
-            .no-print {
-                display: none !important;
-            }
-        }
-        
-        .header {
-            text-align: center;
-            border-bottom: 3px solid #333;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .header h1 {
-            font-size: 24px;
-            margin-bottom: 5px;
-            color: #2c3e50;
-        }
-        
-        .header p {
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .cerfa-number {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-left: 4px solid #e74c3c;
-        }
-        
-        .cerfa-number strong {
-            font-size: 14px;
-        }
-        
-        .copy-type {
-            font-size: 18px;
-            font-weight: bold;
-            color: #e74c3c;
-            text-transform: uppercase;
-        }
-        
-        .section {
-            margin-bottom: 25px;
-        }
-        
-        .section-title {
-            font-size: 13px;
-            font-weight: bold;
-            background: #e3e3e3;
-            padding: 8px 12px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            border-left: 4px solid #3498db;
-        }
-        
-        .section-content {
-            padding: 10px;
-            border: 1px solid #ddd;
-            line-height: 1.6;
-        }
-        
-        .info-row {
-            margin-bottom: 8px;
-            display: grid;
-            grid-template-columns: 150px 1fr;
-        }
-        
-        .info-label {
-            font-weight: bold;
-            color: #2c3e50;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 15px;
-        }
-        
-        thead {
-            background: #34495e;
-            color: white;
-        }
-        
-        th {
-            padding: 10px;
-            text-align: left;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        
-        td {
-            padding: 8px 10px;
-            border-bottom: 1px solid #ddd;
-            font-size: 11px;
-        }
-        
-        tbody tr:nth-child(even) {
-            background: #f8f9fa;
-        }
-        
-        .amount-col {
-            text-align: right;
-        }
-        
-        .total-row {
-            background: #ecf0f1;
-            font-weight: bold;
-        }
-        
-        .total-row td {
-            border-top: 2px solid #34495e;
-            border-bottom: 2px solid #34495e;
-            padding: 12px 10px;
-        }
-        
-        .legal-notice {
-            font-size: 10px;
-            line-height: 1.5;
-            color: #666;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #fffacd;
-            border-left: 4px solid #f39c12;
-        }
-        
-        .signatures {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 40px;
-            padding-top: 40px;
-        }
-        
-        .signature-block {
-            text-align: center;
-            font-size: 12px;
-        }
-        
-        .signature-line {
-            border-top: 1px solid #333;
-            margin-top: 40px;
-            padding-top: 5px;
-        }
-        
-        .print-button {
-            display: none;
-        }
-        
-        .no-print .print-button {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-        
-        .no-print .print-button:hover {
-            background: #2980b9;
-        }
-    </style>
+    <link rel="stylesheet" href="cerfa_generator.css">
 </head>
 <body>
     <div class="container">
@@ -284,8 +84,8 @@ try {
         </div>
         
         <div class="cerfa-number">
-            <strong>N° CERFA: <?= htmlspecialchars($cerfa_number) ?></strong>
-            <span class="copy-type"><?= ucfirst($copy_type) ?></span>
+            <strong>N° CERFA: <?= htmlspecialchars($cerfa_number) ?></strong>   <!-- Affiche le numéro CERFA généré en PHP, sécurisé contre les injections. -->
+            <span class="copy-type"><?= ucfirst($copy_type) ?></span>   <!-- Affiche Original ou Copy avec une majuscule au début. -->
         </div>
         
         <!-- ORGANISME BÉNÉFICIAIRE -->
@@ -317,6 +117,7 @@ try {
             <div class="section-content">
                 <div class="info-row">
                     <div class="info-label">Nom Complet:</div>
+                    <!-- Affiche le prénom et nom de l'adhérent -->
                     <div><?= htmlspecialchars($report['first_name'] . ' ' . $report['last_name']) ?></div>
                 </div>
                 <div class="info-row">
@@ -325,6 +126,7 @@ try {
                 </div>
                 <div class="info-row">
                     <div class="info-label">N° Licence:</div>
+                    <!-- Affiche le numéro de licence, ou N/A s'il est absent -->
                     <div><?= htmlspecialchars($report['license_number'] ?? 'N/A') ?></div>
                 </div>
                 <div class="info-row">
@@ -338,7 +140,7 @@ try {
         <div class="section">
             <div class="section-title">3. Détail des Frais Déclarés (Dons)</div>
             <table>
-                <thead>
+                <thead>   <!-- En-tête du tableau avec 4 colonnes : Catégorie, Date, Description, Montant -->
                     <tr>
                         <th>Catégorie</th>
                         <th>Date</th>
@@ -346,13 +148,13 @@ try {
                         <th class="amount-col">Montant (€)</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody>     <!-- Corps du tableau, rempli dynamiquement par la boucle PHP -->
                     <?php foreach ($documents as $doc): ?>
                         <tr>
                             <td><?= htmlspecialchars(ucfirst(str_replace('_', ' ', $doc['categorie']))) ?></td>
-                            <td><?= date('d/m/Y', strtotime($doc['date_upload'])) ?></td>
-                            <td><?= htmlspecialchars(substr($doc['nom_fichier'], 0, 40)) ?></td>
-                            <td class="amount-col"><strong><?= number_format($doc['montant'], 2) ?></strong></td>
+                            <td><?= date('d/m/Y', strtotime($doc['date_upload'])) ?></td>   <!-- Convertit la date en format lisible jour/mois/année -->
+                            <td><?= htmlspecialchars(substr($doc['nom_fichier'], 0, 40)) ?></td>    <!-- Coupe le nom du fichier à 40 caractères maximum pour ne pas déborder du tableau -->
+                            <td class="amount-col"><strong><?= number_format($doc['montant'], 2) ?></strong></td>   <!-- Coupe le nom du fichier à 40 caractères maximum pour ne pas déborder du tableau -->
                         </tr>
                     <?php endforeach; ?>
                     <tr class="total-row">
@@ -381,6 +183,7 @@ try {
             <div class="signature-block">
                 <div>Signature du Trésorier:</div>
                 <div style="font-size: 10px; margin-top: 5px;">
+                    <!-- Affiche le nom du trésorier connecté depuis la session -->
                     <?= htmlspecialchars($_SESSION['utilisateur']['prenom'] . ' ' . $_SESSION['utilisateur']['nom']) ?>
                 </div>
                 <div class="signature-line"></div>
@@ -389,6 +192,7 @@ try {
             <div class="signature-block">
                 <div>Signature de l'Adhérent:</div>
                 <div style="font-size: 10px; margin-top: 5px;">
+                    <!-- Affiche le nom de l'adhérent depuis la base -->
                     <?= htmlspecialchars($report['first_name'] . ' ' . $report['last_name']) ?>
                 </div>
                 <div class="signature-line"></div>
@@ -399,6 +203,8 @@ try {
         <!-- PIED DE PAGE -->
         <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #ecf0f1; font-size: 9px; color: #999; text-align: center;">
             <p>Document généré automatiquement par FREDI | Maison des Ligues de Lorraine (M2L)</p>
+            <!-- Affiche la date et l'heure exacte de génération du document -->
+            <!-- Rappelle le numéro CERFA en bas de page pour référence -->
             <p>Imprimé le <?= date('d/m/Y à H:i') ?> | Numéro unique: <?= $cerfa_number ?></p>
         </div>
     </div>

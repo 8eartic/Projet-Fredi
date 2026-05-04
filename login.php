@@ -11,8 +11,8 @@
 
 <div class="login-container">
   <div class="login-box">
-    <h1>Connexion</h1>
-    <p class="subtitle">Gestionnaire de Missions Campus</p>
+    <h1><p>Connexion</p></h1>
+    <p class="subtitle">FREDI</p>
 
 <?php
 
@@ -32,10 +32,7 @@ $cas_enabled = defined('USE_CAS') && USE_CAS && (!defined('CAS_FAKE') || !CAS_FA
       <button type="submit" class="btn-apple">Se connecter</button>
     </form>
 
-    <!-- CAS button (kept for SSO) -->
-    <div style="margin-top:12px; text-align:center;">
-      <a href="cas_auth.php" class="btn-apple" style="background:#2d9cdb; display:inline-block; padding:10px 18px; color:white; text-decoration:none; border-radius:6px;">Se connecter via CAS</a>
-    </div>
+    
 
     <?php if (isset($_GET['error']) && $_GET['error'] !== 'cas_required'): ?>
       <p class="message error"><?php echo htmlspecialchars($_GET['error'], ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8'); ?></p>

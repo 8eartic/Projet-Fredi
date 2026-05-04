@@ -1,0 +1,385 @@
+/* ===========================================
+   RESET & BASE STYLES
+   =========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    color: #333;
+}
+
+/* ===========================================
+   NAVIGATION
+   =========================================== */
+
+.navbar {
+    background: white;
+    border-bottom: 1px solid #eee;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.navbar h1 {
+    font-size: 22px;
+    color: #2c3e50;
+}
+
+/* ===========================================
+   LAYOUT
+   =========================================== */
+
+.container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+/* ===========================================
+   ALERTS
+   =========================================== */
+
+.alert {
+    padding: 14px 20px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border-left: 4px solid #27ae60;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #e74c3c;
+}
+
+/* ===========================================
+   STATISTICS CARDS
+   =========================================== */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.stat-card.warning {
+    border-left-color: #f39c12;
+}
+
+.stat-card.success {
+    border-left-color: #27ae60;
+}
+
+.stat-card.danger {
+    border-left-color: #e74c3c;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.stat-value {
+    font-size: 30px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* ===========================================
+   REPORTS TABLE
+   =========================================== */
+
+.reports-section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.section-header {
+    background: #f8f9fa;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    color: #2c3e50;
+}
+
+.section-content {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: #f8f9fa;
+    border-bottom: 2px solid #ddd;
+}
+
+th {
+    padding: 14px 15px;
+    text-align: left;
+    font-weight: 600;
+    color: #666;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+td {
+    padding: 13px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 13px;
+}
+
+tbody tr:hover {
+    background: #fafafa;
+}
+
+/* ===========================================
+   BUTTONS
+   =========================================== */
+
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.btn-success {
+    background: #27ae60;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #229954;
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+}
+
+.btn-secondary {
+    background: #95a5a6;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #7f8c8d;
+}
+
+.btn-info {
+    background: #17a2b8;
+    color: white;
+}
+
+.btn-info:hover {
+    background: #138f99;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.logout-btn {
+    background: #e74c3c;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.logout-btn:hover {
+    background: #c0392b;
+}
+
+/* ===========================================
+   EMPTY STATE
+   =========================================== */
+
+.empty-state {
+    padding: 50px;
+    text-align: center;
+    color: #999;
+    font-size: 16px;
+}
+
+/* ===========================================
+   MODAL
+   =========================================== */
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    width: 100%;
+    max-width: 460px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    animation: popIn 0.2s ease;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.92) translateY(-10px);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.modal h3 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 6px;
+}
+
+.modal-sub {
+    color: #888;
+    font-size: 14px;
+    margin-bottom: 18px;
+}
+
+.modal-info-box {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    border-left: 3px solid #bdc3c7;
+}
+
+.modal-info-box strong {
+    display: block;
+    color: #2c3e50;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.modal label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.modal-optional {
+    font-size: 11px;
+    color: #aaa;
+    font-weight: 400;
+}
+
+.modal textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    resize: vertical;
+    min-height: 80px;
+    font-family: inherit;
+}
+
+.modal textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.confirm-btn {
+    color: white;
+    padding: 9px 22px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.mode-valider .confirm-btn {
+    background: #27ae60;
+}
+
+.mode-valider .confirm-btn:hover {
+    background: #229954;
+}
+
+.mode-refuser .confirm-btn {
+    background: #e74c3c;
+}
+
+.mode-refuser .confirm-btn:hover {
+    background: #c0392b;
+}
